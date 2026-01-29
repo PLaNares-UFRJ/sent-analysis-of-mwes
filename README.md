@@ -2,15 +2,15 @@
 
 This repository contains the code and datasets used in the paper "Challenges and Insights in Multiword Expressions Processing for NLP Tasks in Portuguese". This work aims to study two Multiword Expressions (MWE), namely “morrer de X” (to die of X) and “chorar de X” (to cry of X) in Portuguese, which are commonly used metaphorically for intensification, but can also be interpreted literally. The code is a jupyter notebook containing the code to:
 
-- load the data and preprocess it: As mentioned in the article, some labels were inconsistent.
-- load the models and infer the labels from the data: We used mmBERT small multilingual sentiment and
+- loading the data and preprocess it: As mentioned in the article, some labels were inconsistent.
+- loading the models and infer the labels from the data: We used mmBERT small multilingual sentiment and
   DistilBERT base multilingual cased sentiments for inference.
-- compare the results between the models.
+- comparing the results between the models.
 
 ## Results
 
-In both expressions, the two models had difficulties to correctly identify the true labels in European and Brazilian Portuguese, getting similar accuracies around 0.57. However we can get some insights by looking at the precision
-and recall of both models. Firstly, is important to have well defined both metrics. The precision is measured as
+In both expressions, the two models had difficulties to correctly assign the target labels in European and Brazilian Portuguese, getting similar accuracies around 0.57. However we can get some insights by looking at the precision
+and recall of both models. Firstly, the precision is measured as:
 
 $$\texttt{precision} = \frac{\texttt{\\#True Positives}}{\texttt{\\#True Positives } + \texttt{ \\#False Positives}}$$
 
@@ -32,7 +32,7 @@ Where, given $X$, the false negatives are the cases where the true label _were_ 
   
 </div>
 
-As we can see, in all cases DistilBERT predicted $\texttt{neutral}$ as the sentence true label it hits correctly ($\texttt{precision}$ is $1$). However it represents only $20\\%$ of the total ($\texttt{recall}$ is $0.20$), i.e., it never tries to predict $\texttt{neutral}$. Also we have a lot of $\texttt{negatives}$ wrongly predicted ($\texttt{precision}$ is $0.21$), but with a good accuracy for the true ones ($\texttt{recall}$ is $0.75$). It indicates that the model predicts a lot of $\texttt{negative}$, probably due to literal interpretation.
+As we can see, in all cases DistilBERT predicted $\texttt{neutral}$ as the sentence label it hits correctly ($\texttt{precision}$ is $1$). However it represents only $20\\%$ of the total ($\texttt{recall}$ is $0.20$), i.e., it hardly ever tries to predict $\texttt{neutral}$. Also we have a lot of false $\texttt{negatives}$ ($\texttt{precision}$ is $0.21$), but with a good accuracy for the correct ones ($\texttt{recall}$ is $0.75$). It indicates that the model predicts a lot of $\texttt{negative}$, probably due to literal interpretation.
 
 ### mmBERT for pt-BR
 
@@ -46,11 +46,11 @@ As we can see, in all cases DistilBERT predicted $\texttt{neutral}$ as the sente
   
 </div>
 
-mmBERT shows an excelent performance in the $\texttt{positive}$ labels, with both $\texttt{precision}$ and $\texttt{recall}$ high, but it has a worst result for $\texttt{neutral}$ label. It doesn't try $\texttt{neutral}$ so much ($\texttt{recall}$ is low), but when it tries it does a lot of wrong predictions ($\texttt{precision}$ is low). However, in general, it peforms better in Brazilian portuguese than DistilBERT.
+mmBERT shows an excelent performance in the $\texttt{positive}$ labels, with both high $\texttt{precision}$ and $\texttt{recall}$, but it has a worst result for $\texttt{neutral}$ labels. It doesn't label sentences as $\texttt{neutral}$ frequently ($\texttt{recall}$ is low), but when it tries it does a lot of wrong predictions ($\texttt{precision}$ is low). However, in general, it peforms better in Brazilian Portuguese than DistilBERT.
 
 ## Conclusions
 
-Both models perform similarly in European portuguese, but the difference in Brazilian portuguese is huge, although we had much more European portuguese data. However, in general terms, both models struggled in the presence of MWEs with highly inconsistent labeling. The experiment presents limitations, as it evaluates only pre-trained, openly available models, without engaging in model training. Future work will involve training models with different architectures on the same dataset in order to provide a more robust and reliable comparison.
+Both models perform similarly in European Portuguese, but the difference in Brazilian Portuguese is huge, although we had much more European portuguese data. However, in general terms, both models struggled in the presence of MWEs with highly inconsistent labeling. The experiment presents limitations, as it evaluates only pre-trained, openly available models, without engaging in model training. Future work will involve training models with different architectures on the same dataset in order to provide a more robust and reliable comparison.
 
 ## Acknowledgements
 
